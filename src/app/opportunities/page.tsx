@@ -19,7 +19,9 @@ export default function Page(): React.JSX.Element {
           <div className={'nav-links'}>
             <a href={'../#why'}>{'Why Playtives'}</a>
             <a href={'../#model'}>{'How it works'}</a>
-            <a className={'nav-blog'} href={'/blog/'}>{'Blog'}</a>
+            <a className={'nav-blog'} href={'/blog/'}>
+              {'Learn'}
+            </a>
             <a href={'../#community'}>{'Community'}</a>
             <a
               className={'nav-cta'}

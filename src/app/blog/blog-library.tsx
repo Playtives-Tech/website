@@ -6,27 +6,6 @@ import type { BlogPost } from '@/lib/blog';
 import { articleImage, formatArticleDate, readingMinutes } from '@/lib/blog';
 import styles from './blog.module.css';
 
-const learningPaths = [
-  {
-    eyebrow: 'Start here',
-    title: 'Build your wealth foundations',
-    text: 'Learn the language of saving, investing, risk and long-term wealth building.',
-    terms: ['foundation', 'beginner', 'wealth', 'saving', 'investing'],
-  },
-  {
-    eyebrow: 'Understand the model',
-    title: 'Learn how co-ownership works',
-    text: 'Explore ownership units, shared assets, distributions and the questions to ask.',
-    terms: ['co-ownership', 'coownership', 'ownership', 'units', 'distribution'],
-  },
-  {
-    eyebrow: 'Make informed decisions',
-    title: 'Assess an opportunity',
-    text: 'Understand business fundamentals, due diligence, returns and risks before deciding.',
-    terms: ['due diligence', 'risk', 'returns', 'opportunity', 'business'],
-  },
-];
-
 function searchableText(post: BlogPost): string {
   return [post.title, post.excerpt, post.content, post.category, ...(post.tags ?? [])]
     .join(' ')
@@ -41,7 +20,6 @@ export function BlogLibrary({
   available: boolean;
 }): React.JSX.Element {
   const [query, setQuery] = useState('');
-  const [pathTerms, setPathTerms] = useState<string[] | null>(null);
   const [category, setCategory] = useState('All topics');
   const categories = useMemo(
     () => ['All topics', ...new Set(posts.map((post) => post.category).filter(Boolean))],
@@ -51,53 +29,14 @@ export function BlogLibrary({
     const normalizedQuery = query.trim().toLowerCase();
     return posts.filter((post) => {
       const text = searchableText(post);
-      const matchesQuery = pathTerms?.length
-        ? pathTerms.some((term) => text.includes(term))
-        : !normalizedQuery || text.includes(normalizedQuery);
+      const matchesQuery = !normalizedQuery || text.includes(normalizedQuery);
       const matchesCategory = category === 'All topics' || post.category === category;
       return matchesQuery && matchesCategory;
     });
-  }, [category, pathTerms, posts, query]);
-
-  function explorePath(terms: string[]): void {
-    setCategory('All topics');
-    setPathTerms(terms);
-    setQuery('');
-    document.getElementById('articles')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  }, [category, posts, query]);
 
   return (
     <>
-      <section className={styles.paths} aria-labelledby="learning-paths-title">
-        <div className={styles.sectionHeading}>
-          <div>
-            <p className={styles.eyebrow}>A more useful way to learn</p>
-            <h2 id="learning-paths-title">Choose what you want to understand</h2>
-          </div>
-          <p>
-            Start with a question or follow a topic. Each guide is designed to help you make sense
-            of wealth, not just scroll through articles.
-          </p>
-        </div>
-        <div className={styles.pathGrid}>
-          {learningPaths.map((path, index) => (
-            <button
-              className={styles.pathCard}
-              key={path.title}
-              onClick={() => explorePath(path.terms)}
-            >
-              <span className={styles.pathNumber}>{String(index + 1).padStart(2, '0')}</span>
-              <span className={styles.pathEyebrow}>{path.eyebrow}</span>
-              <span className={styles.pathTitle}>{path.title}</span>
-              <span className={styles.pathText}>{path.text}</span>
-              <span className={styles.pathAction}>
-                Explore guides <span aria-hidden="true">↗</span>
-              </span>
-            </button>
-          ))}
-        </div>
-      </section>
-
       <section className={styles.articles} id="articles" aria-labelledby="articles-title">
         <div className={styles.articleHeading}>
           <div>
@@ -117,7 +56,6 @@ export function BlogLibrary({
             <input
               value={query}
               onChange={(event) => {
-                setPathTerms(null);
                 setQuery(event.target.value);
               }}
               placeholder="Search wealth topics, questions, or ideas"
@@ -197,7 +135,6 @@ export function BlogLibrary({
                 className={styles.resetButton}
                 onClick={() => {
                   setCategory('All topics');
-                  setPathTerms(null);
                   setQuery('');
                 }}
               >

@@ -6,7 +6,8 @@ import styles from './blog.module.css';
 
 export const metadata: Metadata = {
   title: 'Learn about wealth | Playtives',
-  description: 'Practical guides to wealth building, co-ownership, productive assets and evaluating opportunities.',
+  description:
+    'Practical guides to wealth building, co-ownership, productive assets and evaluating opportunities.',
 };
 
 export default async function BlogPage(): Promise<React.JSX.Element> {
@@ -19,8 +20,13 @@ export default async function BlogPage(): Promise<React.JSX.Element> {
           <div className="wrap">
             <p className={styles.heroEyebrow}>The Playtives learning room</p>
             <h1>Build your understanding of wealth.</h1>
-            <p className={styles.heroCopy}>Clear, practical learning for making thoughtful decisions about money, ownership and opportunity — wherever you are starting from.</p>
-            <a className={styles.heroLink} href="#learning-paths-title">Explore learning paths <span aria-hidden="true">↓</span></a>
+            <p className={styles.heroCopy}>
+              Clear, practical learning for making thoughtful decisions about money, ownership and
+              opportunity — wherever you are starting from.
+            </p>
+            <a className={styles.heroLink} href="#articles">
+              Browse guides <span aria-hidden="true">↓</span>
+            </a>
           </div>
         </header>
         <div className="wrap">

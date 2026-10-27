@@ -64,7 +64,7 @@ export default async function Page(): Promise<React.JSX.Element> {
             <a href={'#model'}>{'How it works'}</a>
             <a href={'./wealthplan/'}>{'Wealth Plan'}</a>
             <a className={'nav-blog'} href={'/blog/'}>
-              {'Blog'}
+              {'Learn'}
             </a>
             <a href={'#product'}>{'Product'}</a>
             <a href={'#community'}>{'Community'}</a>
