@@ -55,6 +55,10 @@ body {
   color: rgba(255, 255, 255, 0.76);
   font-size: 12px;
 }
+.nav-links > a:not(.nav-cta) {
+  color: #fff;
+  text-decoration: none;
+}
 .nav-links > a:not(.nav-cta):hover,
 .nav-links > a.active {
   color: #fff;
