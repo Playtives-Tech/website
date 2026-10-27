@@ -1,21 +1,24 @@
 import type { Metadata } from 'next';
 import '@/styles/home.css';
-import { articleImage, formatArticleDate, getPublishedBlogPage, readingMinutes } from '@/lib/blog';
 
 export const metadata: Metadata = { title: 'Playtives \u2014 Co-ownership platform for Africans' };
 type Traction = { memberCapitalDeployed90DaysMinorUnits: number; activeCoOwners: number };
 
 async function getTraction(): Promise<Traction | null> {
   try {
-    const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const apiUrl =
+      process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     const response = await fetch(`${apiUrl.replace(/\/$/, '')}/v1/opportunities/traction`, {
       cache: 'no-store',
       signal: AbortSignal.timeout(3000),
     });
     if (!response.ok) return null;
     const data = (await response.json()) as Traction;
-    if (!Number.isSafeInteger(data.memberCapitalDeployed90DaysMinorUnits) ||
-      !Number.isSafeInteger(data.activeCoOwners)) return null;
+    if (
+      !Number.isSafeInteger(data.memberCapitalDeployed90DaysMinorUnits) ||
+      !Number.isSafeInteger(data.activeCoOwners)
+    )
+      return null;
     return data;
   } catch {
     return null;
@@ -42,7 +45,7 @@ function formatCapital(minorUnits: number): string {
 }
 
 export default async function Page(): Promise<React.JSX.Element> {
-  const [traction, blog] = await Promise.all([getTraction(), getPublishedBlogPage(3)]);
+  const traction = await getTraction();
   return (
     <>
       <nav className={'nav'} aria-label={'Primary navigation'}>
@@ -60,7 +63,9 @@ export default async function Page(): Promise<React.JSX.Element> {
             <a href={'#why'}>{'Why Playtives'}</a>
             <a href={'#model'}>{'How it works'}</a>
             <a href={'./wealthplan/'}>{'Wealth Plan'}</a>
-            <a className={'nav-blog'} href={'/blog/'}>{'Blog'}</a>
+            <a className={'nav-blog'} href={'/blog/'}>
+              {'Blog'}
+            </a>
             <a href={'#product'}>{'Product'}</a>
             <a href={'#community'}>{'Community'}</a>
             <a
@@ -144,7 +149,9 @@ export default async function Page(): Promise<React.JSX.Element> {
         <div className={'proof'} aria-label={'Playtives traction'}>
           <div className={'wrap proof-grid'}>
             <div className={'proof-item'}>
-              <span className={'proof-value'}>{traction ? formatCapital(traction.memberCapitalDeployed90DaysMinorUnits) : '—'}</span>
+              <span className={'proof-value'}>
+                {traction ? formatCapital(traction.memberCapitalDeployed90DaysMinorUnits) : '—'}
+              </span>
               <span className={'proof-label'}>{'Member capital deployed in 90 days'}</span>
             </div>
             <div className={'proof-item'}>
@@ -156,7 +163,9 @@ export default async function Page(): Promise<React.JSX.Element> {
               <span className={'proof-label'}>{'Followers'}</span>
             </div>
             <div className={'proof-item'}>
-              <span className={'proof-value'}>{traction ? traction.activeCoOwners.toLocaleString('en-NG') : '—'}</span>
+              <span className={'proof-value'}>
+                {traction ? traction.activeCoOwners.toLocaleString('en-NG') : '—'}
+              </span>
               <span className={'proof-label'}>{'Active co-owners'}</span>
             </div>
           </div>
@@ -309,46 +318,6 @@ export default async function Page(): Promise<React.JSX.Element> {
             </div>
           </div>
         </section>
-
-        {/* <section className={'wealth-learning'} id={'learn'}>
-          <div className={'wrap'}>
-            <div className={'wealth-learning-head'}>
-              <div>
-                <p className={'kicker'}>{'Learn with Playtives'}</p>
-                <h2 className={'section-title'}>{'Build wealth literacy, one clear idea at a time.'}</h2>
-              </div>
-              <div>
-                <p className={'section-lead'}>{'Practical guides to money, co-ownership and productive assets — made to help you understand the choices behind building wealth.'}</p>
-                <a className={'wealth-learning-link'} href={'/blog/'}>{'Explore the learning library'} <span aria-hidden={'true'}>{'→'}</span></a>
-              </div>
-            </div>
-            {blog.items.length > 0 ? (
-              <div className={'wealth-article-grid'}>
-                {blog.items.slice(0, 3).map((post, index) => {
-                  const image = articleImage(post.coverImageUrl);
-                  return (
-                    <a className={'wealth-article-card'} href={`/blog/${encodeURIComponent(post.slug)}/`} key={post._id}>
-                      {image ? <img src={image} alt={post.coverImageAlt || ''} loading={index === 0 ? 'eager' : 'lazy'} /> : <div className={'wealth-article-art'} aria-hidden={'true'}><span>{post.category || 'Playtives Learn'}</span></div>}
-                      <div className={'wealth-article-copy'}>
-                        <span>{post.category || 'Wealth learning'} {' · '} {readingMinutes(post.content)} {' min read'}</span>
-                        <h3>{post.title}</h3>
-                        <p>{post.excerpt}</p>
-                        <b>{'Read guide'} <span aria-hidden={'true'}>{'→'}</span></b>
-                        <time dateTime={post.publishedAt || undefined}>{formatArticleDate(post.publishedAt)}</time>
-                      </div>
-                    </a>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className={'wealth-topic-grid'}>
-                <a href={'/blog/#learning-paths-title'}><span>{'01 / FOUNDATIONS'}</span><b>{'Understand the building blocks of wealth'}</b><small>{'Saving, investing, risk and time.'}</small></a>
-                <a href={'/blog/#learning-paths-title'}><span>{'02 / CO-OWNERSHIP'}</span><b>{'Learn how shared ownership works'}</b><small>{'Units, shared assets and distributions.'}</small></a>
-                <a href={'/blog/#learning-paths-title'}><span>{'03 / DUE DILIGENCE'}</span><b>{'Know what to ask before you participate'}</b><small>{'Business fundamentals, terms and risks.'}</small></a>
-              </div>
-            )}
-          </div>
-        </section> */}
 
         <section className={'product'} id={'product'}>
           <div className={'wrap'}>
