@@ -62,7 +62,9 @@ export default async function BlogArticlePage({ params }: Props): Promise<React.
                 </div>
               )}
             </header>
-            <div className={styles.readerLayout}>
+            <div
+              className={`${styles.readerLayout} ${headings.length ? '' : styles.readerLayoutNoContents}`}
+            >
               {headings.length > 0 && (
                 <aside className={styles.contents}>
                   <p>In this guide</p>

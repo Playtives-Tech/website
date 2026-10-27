@@ -417,6 +417,10 @@
   margin: 50px auto 0;
 }
 
+.readerLayoutNoContents {
+  grid-template-columns: minmax(0, 720px);
+}
+
 .contents {
   position: sticky;
   top: 100px;
@@ -456,8 +460,8 @@
 .articleContent {
   min-width: 0;
   color: #4e554e;
-  font-size: 14px;
-  line-height: 1.9;
+  font-size: 16px;
+  line-height: 1.8;
   overflow-wrap: anywhere;
 }
 
@@ -755,7 +759,7 @@
   }
 
   .articleContent {
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.8;
   }
 
