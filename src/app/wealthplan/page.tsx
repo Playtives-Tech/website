@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import '@/styles/wealth-plan.css';
 import Script from 'next/script';
+import { MarketingHeader } from '@/components/marketing-chrome';
 export const metadata: Metadata = { title: 'The Predictable Wealth Plan \u2014 Calculator' };
 export default function Page(): React.JSX.Element {
   return (
     <>
+      <MarketingHeader active="wealthplan" />
       <header>
         <h1>{'The Predictable Wealth Plan'}</h1>
         <p>{'Interactive Calculator \u2014 by Gabriel Olatunji-Legend'}</p>
